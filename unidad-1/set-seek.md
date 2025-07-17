@@ -36,3 +36,28 @@ Le atine a que en ningún momento se vaya hacia la izquierda pero me confundí c
 
 El profesor me aclaró la duda de por que se fue para abajo en vez de arriba, me explico que las Y positivas se cuentan hacia abajo.
 
+### Actividad 4
+
+La distribución uniforme es el resultado de que todas las probabilidades sean exactamente las mismas, mientras que la distribución no uniforme consiste en que las probabilidades estén más decantadas para un lado que para el resto de los demás,
+
+Para que el código del walker vaya mas que todo a la derecha se podrían hacer aumentar el rango del random que se encuentra en el choice y poner un rango más amplio en donde la x se vaya a la derecha.
+
+Algo así:
+
+```js
+  step() {
+    let choice = floor(random(100));
+    console.log(choice)
+    if (choice >=0 && choice <=30) {
+      this.x++;
+    } else if (choice >=31 && choice <=40) {
+      this.x--;
+    } else if (choice > 41) {
+      this.y--;
+    } else {
+      this.y++;
+    }
+  }
+}
+```
+
