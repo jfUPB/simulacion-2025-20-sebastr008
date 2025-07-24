@@ -2,6 +2,7 @@
 
 ## 🔎 Fase: Set + Seek
 
+
 ### Actividad 5
 
 Modifiqué el ejemplo de la página para que las bolitas cubrieran solo la mitad de la pantalla, esto sigue siendo una distribución normal
@@ -63,6 +64,55 @@ class Walker {
   this.x = random(0, 400);
   this.y = random(0, 100);
   } else if (choice >=0 && choice <=30) {
+
+
+### Actividad 1
+
+Una gran parte de la esencia del arte generativo está en su aleatoriedad ya que esta es la que permite que cada obra e incluso cada iteración del programa creado tenga su propia esencia y originalidad, sin esta, el arte generativo no sería tal cuál lo conocemos hoy, un caos hermoso y controlado.
+
+### Actividad 2
+
+La aletoriedad en la obra de Sofia se puede notar en los colores, la amplitud, la dirección y la velocidad de los trazos que varia según el ritmo de la canción, viéndose en las partes más animadas trazos más grandes, coloridos y veloces, mientras que en las partes más calmadas se notan trazos más delgados y lentos con cambios de dirección menos bruscos.
+
+La aletoriedad según mi perfil profesional jugaría un papel bastante importante principalmente porque me quisiera dedicar a realizar proyectos parecidos a los que se hicieron en sis fisicos 1,2 y este curso, aparte, con el surgimiento de los llamados "visualistas", en dónde podemos crear visuales en tiempo real para cualquier evento en vivo, el componente principal de esto sería la aletoriedad para poder generar efectos e ideas nuevas.
+
+### Actividad 3
+
+Modificaré la función "step" de la clase "Walker" modificaré que si en la variable choice sale el número 2 o 4, la dirección (en x si es 2, y en y si es 4) no disminuirá si no que la multiplicaré por 2, haciendo así que lo que se dibuje en ningun momento vaya hacia la izquierda o hacia abajo.
+
+```js
+ step() {
+    const choice = floor(random(4));
+    if (choice == 0) {
+      this.x++;
+    } else if (choice == 1) {
+      this.x*2;
+    } else if (choice == 2) {
+      this.y++;
+    } else {
+      this.y*2;
+    }
+  }
+}
+```
+
+Le atine a que en ningún momento se vaya hacia la izquierda pero me confundí con el eje Y, dije que no se iría para abajo en ningún momento pero lo que realmente sucedió es que en ningún momento fue hacia arriba ajajaj
+
+El profesor me aclaró la duda de por que se fue para abajo en vez de arriba, me explico que las Y positivas se cuentan hacia abajo.
+
+### Actividad 4
+
+La distribución uniforme es el resultado de que todas las probabilidades sean exactamente las mismas, mientras que la distribución no uniforme consiste en que las probabilidades estén más decantadas para un lado que para el resto de los demás,
+
+Para que el código del walker vaya mas que todo a la derecha se podrían hacer aumentar el rango del random que se encuentra en el choice y poner un rango más amplio en donde la x se vaya a la derecha.
+
+Algo así:
+
+```js
+  step() {
+    let choice = floor(random(100));
+    console.log(choice)
+    if (choice >=0 && choice <=30) {
       this.x++;
     } else if (choice >=31 && choice <=40) {
       this.x--;
@@ -121,7 +171,4 @@ function draw() {
 <img width="622" height="225" alt="image" src="https://github.com/user-attachments/assets/c226272a-a8a8-412a-afb2-c6a4fe8f821a" />
 
 Entrar al proyecto para observar la animación.
-
-
-
 
