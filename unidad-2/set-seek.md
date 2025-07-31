@@ -84,3 +84,49 @@ Como copiamos lo que habia en la dirección "v" que es la misma que "position" e
 Si ponemos un console.log que muestre el contenido de pos, ahí si nos mostrará 20,30,0
 
 Con esto aprendí a no modificar vectores directamente y repasé un poco el concepto de referencias en Javascript
+
+
+### Actividad 4
+
+**magSq():** Este método calcula la magnitud del vector usando sus componentes x,y y lo eleva al cuadrado 
+
+**mag():** Este método eleva al cuadrado esta magnitud, haciendola más eficiente ya que el procesador no tiene que computar la raíz cuadrada
+
+**normalize():** Este método escala los componentes de un vector dado para que su magnitud sea 1, haciendo así que sea más fácil controlar direcciones o fuerzas en simulaciones o animaciones
+
+**dot():** Sirve para realizar el producto punto de 2 vectoes y obtener un escalar. 
+
+Como tal no importa si se usa el método por referencia o estático, simplemente cambia la manera de sintaxis a la hora de hacer el producto punto.
+
+
+Referencia:
+
+```js
+let direccion = createVector(1, 0);
+let objetivo = createVector(3, 2);
+
+let alineamiento = direccion.dot(objetivo);
+```
+
+Estático:
+
+```js
+let fuerza = createVector(2, 3);
+let aceleracion = createVector(4, 1);
+
+let resultado = p5.Vector.dot(fuerza, aceleracion);
+```
+
+**Interpretación de un producto cruz:** 
+
+Si tenemos 2 vectoes A y B estos formarán un paralelogramo, si hacemos un producto cruz entre estos 2 vectores, obtendremos un tercer vector que será perpendicular al paralelogramo formado por A y B, (si cambiamos el orden por ejemplo B x A, el 3er vector tendra su dirección invertida).
+
+La magnitud de este tercer vector será igual al área del paralelogramo formado por los vectores A y B pero si el ángulo que hay entre A y B es 0° o 180°, no existe un paralelogramo, por lo tanto, el área es 0, o no existe.
+
+**dist():** Este método sirve para calcular la distancia entre 2 puntos ya sean de coordenadas o vectores. Puede servir para dibujar lineas entre estos 2 puntos, detectar proximidad de algun elemento o crear eventos si se cumple x distancia entre varios puntos.
+
+**limit();** Sirve para colocarle un máximo o un mínimo a la magnitus de un vector, esto es útil si por ejemplo estamos haciendo algo con velocidades o aceleraciones, para limitar estas y que el programa no se rompa (si es que muchos de los cálculos dependen de estos vectores).
+
+
+
+
