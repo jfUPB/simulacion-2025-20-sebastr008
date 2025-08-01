@@ -127,6 +127,75 @@ La magnitud de este tercer vector será igual al área del paralelogramo formado
 
 **limit();** Sirve para colocarle un máximo o un mínimo a la magnitus de un vector, esto es útil si por ejemplo estamos haciendo algo con velocidades o aceleraciones, para limitar estas y que el programa no se rompa (si es que muchos de los cálculos dependen de estos vectores).
 
+### Actividad 5
+
+**Código en p5.js**
+
+```js
+let mov = 0;
+let direccion = 1;
+
+function setup() {
+    createCanvas(600, 600);
+}
+
+function draw() {
+    background(200);
+
+    let v0 = createVector(50, 50);
+    let v1 = createVector(250, 0);
+    let v2 = createVector(0, 250);
+    let v3 = p5.Vector.lerp(v1, v2, mov);
+    let v4 = createVector(v2.y+v0.y,v0.x);
+    let v5 = createVector(-v1.x, v2.y);
+  
+    let azulito = color(0,0,255);
+    let rojito = color(255,0,0);
+    let blending = lerpColor(rojito,azulito,mov);
+    
+    
+    drawArrow(v0, v1, 'red');
+    drawArrow(v0, v2, 'blue');
+    drawArrow(v0, v3, blending);
+    drawArrow(v4, v5, 'green');
+  
+    mov += 0.01*direccion;
+  
+  if (mov<=0 ){
+    direccion = 1;
+  }
+  
+  if (mov>=1){
+    direccion = -1;
+  }
+
+}
+
+function drawArrow(base, vec, myColor) {
+    push();
+    stroke(myColor);
+    strokeWeight(3);
+    fill(myColor);
+    translate(base.x, base.y);
+    line(0, 0, vec.x, vec.y);
+    rotate(vec.heading());
+    let arrowSize = 7;
+    translate(vec.mag() - arrowSize, 0);
+    triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+    pop();
+}
+```
+
+**Método lerp**
+
+El método lerp crea nuevos componentes x,y que están a la misma distancia entre 2 vectores, tiene un parámetro (amount) que sirve para definir que tan cerca esos componentes están de un vector o de otro (si está cerca al 0, sus componentes estarán más cerca al primer vector, si está más cerca al 1 sus componentes estarán más cercanos al nuevo vector).
+
+**Método lerpColor**
+
+Este método es exactamente lo mismo que lerp, solo que en vez de usar componentes de vectores, usa valores rgb, tiene 3 parametros, el primero es el color del que parte, el segundo es el color hacia donde va, y el 3ro es el mismo que el amount en lerp, dependiendo de este número, el color será más parecido a uno o a otro.
+
+
+
 
 
 
