@@ -194,6 +194,99 @@ El método lerp crea nuevos componentes x,y que están a la misma distancia entr
 
 Este método es exactamente lo mismo que lerp, solo que en vez de usar componentes de vectores, usa valores rgb, tiene 3 parametros, el primero es el color del que parte, el segundo es el color hacia donde va, y el 3ro es el mismo que el amount en lerp, dependiendo de este número, el color será más parecido a uno o a otro.
 
+### Actividad 6
+
+**Motion 101** El motion 101 básicamente consiste en añadir la velocidad a la posición y después mostrar el objeto a mover en la posición, así en un bucle para formar una animación.
+
+Geométricamente para entenderlo mejor, me imagino a "velocidad" como una flecha por la que "posición" se va a desplazar, ya que constantemente le estamos sumando la velocidad a la posición del objeto que se está mostrando.
+
+**Motion 101 en el ejemplo** En el ejemplo se usa Motion 101 combinado con POO, en dónde se crea una clase Mover donde se crean los vectores de posición y velocidad en el constructor, luego se crea una función para modificar la posicion de este objeto llamada update, luego en la función show, se encarga de mostrar en este caso un circulo con la posición nueva dada por la velocidad. Aquí se puede notar el motion 101 porque usa los vectores posición y velocidad de la manera en la que expliqué anteriormente.
+
+### Actividad 7
+
+Pude observar como con cada aceleración tenía un comportamiento diferente, con la aceleración constante, la pelota siempre iba agarrando más y más velocidad, pero al limitarla esta llegaba al tope y seguía con esa velocidad, con la velocidad aleatoria, la pelota tomaba cambios de dirección repentinos, haciendo que la pelota se mueva de manera "errática", y con la aceleración por el mouse, la pelota sigue por donde va el mouse.
+
+Pude experimentar bastante con todas estas aceleraciones y llegue a este codiguito:
+
+```js
+
+let mover;
+
+function setup() {
+  
+  mover = new Mover();
+  createCanvas(400, 400);
+}
+
+function draw() {
+  background(220);
+  
+  mover.update();
+  mover.show();
+  mover.checkEdges();
+  
+  
+}
+
+class Mover{
+  
+ constructor(){
+   
+   this.position=createVector(0,0);
+   this.velocity=createVector(0,0);
+   
+   this.accel=createVector(0.01,0.2)
+
+   
+ }
+  
+  update(){
+    
+    let mouse = createVector(mouseX,mouseY);
+    
+    let dir = p5.Vector.sub(mouse, this.position);
+    dir.normalize();
+    dir.mult(0.2);
+    
+    this.accel = dir;
+
+    this.velocity.add(this.accel);
+    
+    
+    this.position.add(this.velocity);
+    this.velocity.limit(15);
+    
+    console.log(this.velocity.toString());
+  }
+  
+  show(){
+    
+    fill(255);
+    circle(this.position.x,this.position.y,70);
+  }
+  
+  checkEdges(){
+    if(this.position.x>width || this.position.x<0 ){
+      this.velocity.x *= -1;
+      this.velocity.mult(0.8);
+    }
+    
+    
+    if(this.position.y>height || this.position.y<0 ){
+      this.velocity.y *= -1;
+      this.velocity.mult(0.8);
+      
+    }
+    
+  }
+  
+  
+}
+```
+
+
+
+
 
 
 
