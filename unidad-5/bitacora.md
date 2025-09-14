@@ -256,6 +256,139 @@ class Emitter {
 
 <img width="634" height="272" alt="image" src="https://github.com/user-attachments/assets/61ae7018-026d-4822-8c94-8b49dd1d2222" />
 
+### Ejemplo #3
+
+Como este ejemplo es bastante parecido al segundo no profundizaré tanto en él, explicaré los cambios más significativos.
+
+**¿Cómo se está gestionando la creación y la desaparición de las partículas?**
+Se un solo emisor (ya aqui no hay array de emisores) que crea dos tipos: Particle y Confetti, esta es una clase que hereda todo lo de particles, pero modifica el show() de esta clase, en vez de que salgan circulitos salen cuadrados y se van rotando segun su posición, cada tipo de particula tiene 50/50 de salir. Se guardan en el mismo array y se borran igual (bucle inverso + splice).
+
+**¿Cómo se gestiona la memoria?**
+Igual que antes. El polimorfismo no cambia la gestión: al quitar la referencia, el garbage collector lo limpia. Lo único “extra” es que Confetti solo sobrescribe show() para dibujar un cuadrado rotado.
+
+Al mezclar tipos en el mismo array, el coste sigue siendo igual, pero el resultado visual es más variado sin tocar la lógica de borrado. Si subo la tasa de emisión, sube la cantidad de partículas y bajan los FPS, así que se mantiene un límite por emisor.
+
+A este ejemplo le quise aplicar la resistencia del aire un poco simplificada, me basé en la unidad 3 para implementar esta fuerza.
+
+En la función run() de la clase particles fue en dónde añadí la lógica encargada de la resistencia ya que en esta función es en dónde se le está aplicando la gravedad a cada partícula. Lo apliqué de la siguiente manera:
+
+Copié el vector de velocidad a un vector nuevo llamado "fricción" (en realidad es resistencia pero asi le puse y me dio pereza cambiar los nombres de las variables jajaja), luego, los componentes de ese vector los multiplique por menos el coeficiente de resistencia, quedando así un vector proporcional a la velocidad pero apuntando en contra. Finalmente este vector "fricción" se lo pase al método applyForce para que se le aplicara esta fuerza a cada partícula generada.
+
+Lo quise hacer con la resistencia del aire ya que en la unidad 3 hicimos fricción pero tenía ganas de probar a hacer algo con la resistencia del aire así que esto fue la oportunidad perfecta, aparte me ayudó a practicar el concepto de modelar y aplicar fuerzas a una partícula
+
+**Enlace al código**
+
+[Simulación #3](https://editor.p5js.org/sebastr008/sketches/mXNhoLO6a)
+
+
+**Código fuente**
+
+```js
+let emitter;
+
+function setup() {
+  createCanvas(640, 240);
+  emitter = new Emitter(width / 2, 20);
+}
+
+function draw() {
+  background(255);
+  emitter.addParticle();
+  emitter.run();
+}
+
+class Emitter {
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.particles = [];
+  }
+
+  addParticle() {
+    let r = random(1);
+    if (r < 0.5) {
+      this.particles.push(new Particle(this.origin.x, this.origin.y));
+    } else {
+      this.particles.push(new Confetti(this.origin.x, this.origin.y));
+    }
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      let p = this.particles[i];
+      p.run();
+      if (p.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.acceleration = createVector(0, 0);
+    this.velocity = createVector(random(-1, 1), random(-1, 0));
+    this.lifespan = 255.0;
+  }
+
+  run() {
+    let gravity = createVector(0, 0.05);
+    let friction = this.velocity.copy();
+    let c = 0.04;
+    friction.mult(-c);
+    
+    
+    this.applyForce(gravity);
+    this.applyForce(friction);
+    this.update();
+    this.show();
+  }
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  // Method to update position
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.lifespan -= 2;
+    this.acceleration.mult(0);
+  }
+
+  // Method to display
+  show() {
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    fill(127, this.lifespan);
+    circle(this.position.x, this.position.y, 8);
+  }
+
+  isDead() {
+    return this.lifespan < 0.0;
+  }
+}
+
+class Confetti extends Particle {
+  // Override the show method
+  show() {
+    let angle = map(this.position.x, 0, width, 0, TWO_PI * 2);
+
+    rectMode(CENTER);
+    fill(127, this.lifespan);
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(angle);
+    square(0, 0, 12);
+    pop();
+  }
+}
+```
+
+<img width="272" height="248" alt="image" src="https://github.com/user-attachments/assets/7268f0ec-3220-40d6-a037-98e9001fd488" />
+
 
 
 
