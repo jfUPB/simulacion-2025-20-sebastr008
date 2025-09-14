@@ -261,9 +261,11 @@ class Emitter {
 Como este ejemplo es bastante parecido al segundo no profundizaré tanto en él, explicaré los cambios más significativos.
 
 **¿Cómo se está gestionando la creación y la desaparición de las partículas?**
-Se un solo emisor (ya aqui no hay array de emisores) que crea dos tipos: Particle y Confetti, esta es una clase que hereda todo lo de particles, pero modifica el show() de esta clase, en vez de que salgan circulitos salen cuadrados y se van rotando segun su posición, cada tipo de particula tiene 50/50 de salir. Se guardan en el mismo array y se borran igual (bucle inverso + splice).
+
+Ee un solo emisor (ya aqui no hay array de emisores) que crea dos tipos: Particle y Confetti, esta es una clase que hereda todo lo de particles, pero modifica el show() de esta clase, en vez de que salgan circulitos salen cuadrados y se van rotando segun su posición, cada tipo de particula tiene 50/50 de salir. Se guardan en el mismo array y se borran igual (bucle inverso + splice).
 
 **¿Cómo se gestiona la memoria?**
+
 Igual que antes. El polimorfismo no cambia la gestión: al quitar la referencia, el garbage collector lo limpia. Lo único “extra” es que Confetti solo sobrescribe show() para dibujar un cuadrado rotado.
 
 Al mezclar tipos en el mismo array, el coste sigue siendo igual, pero el resultado visual es más variado sin tocar la lógica de borrado. Si subo la tasa de emisión, sube la cantidad de partículas y bajan los FPS, así que se mantiene un límite por emisor.
@@ -388,6 +390,23 @@ class Confetti extends Particle {
 ```
 
 <img width="272" height="248" alt="image" src="https://github.com/user-attachments/assets/7268f0ec-3220-40d6-a037-98e9001fd488" />
+
+
+### Ejemplo #4
+
+Este ejemplo es también similar, solo con un pequeño cambio en como se aplican las fuerzas a las partículas.
+
+**¿Cómo se está gestionando la creación y la desaparición de las partículas?**
+
+En esta versión se tiene también un solo Emitter. En cada draw() se hace primero emitter.addParticle() (crea 1 partícula en origin) y luego emitter.run() (actualiza, dibuja y limpia).
+Dentro de run() recorro de atrás hacia adelante el array particles; cuando isDead() (porque el lifespan llegó a 0), hago splice(i,1) para sacarla sin romper índices.
+
+Aquí va el detalle, las fuerzas (gravedad, viento, etc.) se preparan afuera y se inyectan al emisor para que él se las aplique a todas sus partículas. Eso deja cambiar/combinar fuerzas sin tocar la clase Particle y además puedo decidir por emisor qué fuerza usar.
+
+**¿Cómo se gestiona la memoria?**
+
+Cuando hago splice a una partícula muerta, pierde la referencia y el GC de JavaScript la libera después. Para no generar basura innecesaria, reutilizo vectores constantes (por ejemplo una GRAVITY global) en vez de crear un createVector idéntico por partícula y por frame.
+
 
 
 
