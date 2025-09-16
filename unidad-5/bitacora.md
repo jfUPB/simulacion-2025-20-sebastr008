@@ -401,11 +401,125 @@ Este ejemplo es también similar, solo con un pequeño cambio en como se aplican
 En esta versión se tiene también un solo Emitter. En cada draw() se hace primero emitter.addParticle() (crea 1 partícula en origin) y luego emitter.run() (actualiza, dibuja y limpia).
 Dentro de run() recorro de atrás hacia adelante el array particles; cuando isDead() (porque el lifespan llegó a 0), hago splice(i,1) para sacarla sin romper índices.
 
-Aquí va el detalle, las fuerzas (gravedad, viento, etc.) se preparan afuera y se inyectan al emisor para que él se las aplique a todas sus partículas. Eso deja cambiar/combinar fuerzas sin tocar la clase Particle y además puedo decidir por emisor qué fuerza usar.
+Aquí va el detalle, las fuerzas (gravedad, viento, etc.) se preparan afuera y se inyectan al emisor para que él se las aplique a todas sus partículas. Además, ahora applyForce usa la segunda ley de Newton: como lo que modifico es la aceleración, divido la fuerza entre la masa (a += F / m) y luego integro normal en update(). Eso deja cambiar/combinar fuerzas sin tocar la clase Particle y además puedo decidir por emisor qué fuerza usar.
 
 **¿Cómo se gestiona la memoria?**
 
 Cuando hago splice a una partícula muerta, pierde la referencia y el GC de JavaScript la libera después. Para no generar basura innecesaria, reutilizo vectores constantes (por ejemplo una GRAVITY global) en vez de crear un createVector idéntico por partícula y por frame.
+
+A este ejemplo el concepto que quise aplicar es el del movimiento oscilatorio, ya que fue el efecto con el que su resultado me pareció más bonito en la aplicación que hice para esa unidad, lo apliqué siguiendo la misma lógica que propone el ejemplo de aplicar la fuerza desde afuera y ponersela al emitter para que se las aplique a cada una de las partículas. En el sketch.js lo que hice fue añadir 2 variables (theta y omega, theta siendo el ángulo y omega la velocidad angular). También cree una variable windAmp que entre más grande sea esta variable, más duro empujará el viento. 
+
+Ahora dentro del draw cree un vector nuevo que será el viento que empuje estas partículas de un lado a otro, el componente en x de este vector será windAmp * sin(theta), después para cambiar el ángulo, le sumaremos omega al ángulo theta para que haya cambio en la dirección de cada partícula. Finalmente este vector viento será el que le pasaremos al método applyForce del emitter, que será ya el encargado de aplicarle esta fuerza sinusoidal a cada partícula.
+
+[Enlace al códigp](https://editor.p5js.org/sebastr008/sketches/PB7KJ4JIV)
+
+```js
+
+let emitter;
+const windAmp = 0.05;
+
+let theta = 0;
+const OMEGA = 0.08;
+
+function setup() {
+  createCanvas(1280, 480);
+  emitter = new Emitter(width / 2, 50);
+}
+
+function draw() {
+  background(255, 30);
+
+  const gravity = createVector(0, 0.1);
+  const wind    = createVector(windAmp * sin(theta), 0);
+  theta += OMEGA;
+
+  emitter.applyForce(gravity);
+  emitter.applyForce(wind);
+
+  emitter.addParticle();
+  emitter.run();
+}
+
+class Emitter {
+
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.particles = [];
+  }
+
+  addParticle() {
+    this.particles.push(new Particle(this.origin.x, this.origin.y));
+  }
+
+  applyForce(force) {
+    //{!3} Using a for of loop to apply the force to all particles
+    for (let particle of this.particles) {
+      particle.applyForce(force);
+    }
+  }
+
+  run() {
+    //{!7} Can’t use the enhanced loop because checking for particles to delete.
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const particle = this.particles[i];
+      particle.run();
+      if (particle.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.acceleration = createVector(0, 0.0);
+    this.velocity = createVector(random(-1, 1), random(-2, 0));
+    this.lifespan = 255.0;
+    this.mass = 1; // Let's do something better here!
+
+  }
+
+  run() {
+    this.update();
+    this.show();
+  }
+
+  applyForce(force) {
+    let f = force.copy();
+    f.div(this.mass);
+    this.acceleration.add(f);
+  }
+
+  // Method to update position
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.acceleration.mult(0);
+    this.lifespan -= 2.0;
+  }
+
+  // Method to display
+  show() {
+    stroke(0, this.lifespan);
+    strokeWeight(2);
+    fill(127, this.lifespan);
+    circle(this.position.x, this.position.y, 8);
+  }
+
+  // Is the particle still useful?
+  isDead() {
+    return this.lifespan < 0.0;
+  }
+}
+
+```
+
+<img width="407" height="458" alt="image" src="https://github.com/user-attachments/assets/97d66d94-d5e5-4bc9-b6f4-ad65f8edcd2e" />
+
+**Se puede apreciar un poco en la imagen como se ve la forma sinusoidal en el recorrido de las partículas**
+
+
 
 
 
