@@ -519,6 +519,122 @@ class Particle {
 
 **Se puede apreciar un poco en la imagen como se ve la forma sinusoidal en el recorrido de las partículas**
 
+### Ejemplo 5 
+
+## Actividad 3
+
+### Proceso de conceptualización
+
+Primeramente quise buscar inspiración en Pinterest para poder encaminar el proyecto hacia una estética o sentimiento, hasta el momento empecé con una moodboard en el cual agrego imágenes que siento que pueden estar relacionadas y seguidamente pongo en palabras lo que me transmitene esas imágenes a medida que las veo. Hasta el momento llevo esto:
+
+<img width="921" height="829" alt="image" src="https://github.com/user-attachments/assets/1eece35f-43db-4570-917e-0885f06c1bff" />
+
+ 
+También le pregunté a mi novia que palabras se le ocurrían al ver estas imágenes y las palabras que me dijo fueron:
+
+-	Aura
+-	Renacimiento
+-	Creación
+-	Exploración
+-	Esencia
+-	Universos
+-	Energía
+-	Despertar
+-	Eternidad
+-	Cosmos
+-	Espíritu
+-	Viaje
+-	Portal
+-	Plenitud
+-	Paz
+-	Origen
+
+Puse todas estas palabras en el moodboard y me quedé analizándolas un tiempo.
+
+Luego quise hacer combinaciones de todas las palabras que pensé junto con las que me dio mi novia para empezar a encaminar el concepto del proyecto y pude llegar a varias combinaciones interesantes por mi cuenta. Estas fueron las combinaciones a las que pude llegar:
+
+
+ <img width="681" height="178" alt="image" src="https://github.com/user-attachments/assets/9ed339a9-9058-4a21-b2c9-809216267b85" />
+
+
+Al hacer esta combinación de palabras, me quedó sonando la siguiente con la cuál me empezaron a surgir las primeras ideas:
+
+Más allá / Exploración / Dimensión / Universos / Creación / Origen
+Le estuve dando muchas vueltas a esta combinación de palabras hasta que pude terminar de conectar completamente todas las ideas lo cuál me lleva al concepto de mi proyecto el cuál es:
+
+Cada parpadeo crea una dimensión maleable en dónde nuestra presencia modela universos y variaciones sutiles producen grandes cambios.
+
+Luego de tener claro el concepto de lo que quería realizar, me puse a pensar las primeras ideas e hice unos pequeños bocetos que representan a grandes rasgos lo que quería lograr con el proyecto:
+
+
+<img width="920" height="691" alt="image" src="https://github.com/user-attachments/assets/715072b6-9a8b-40d8-89ff-e8696daed42b" />
+
+
+Como la detección de la mano aún no sé muy bien como hacer que sea bastante precisa, la interacción creo que solo será con el mouse y lo de tapar la cámara ya que, si quiero hacer todo lo que tengo en mente, no me dará tiempo a implementar una interacción más compleja.
+
+Así que empecé a hacer realidad poco a poco lo que tenía en mi mente, le di un buen contexto a ChatGPT de lo que quería lograr (importante aclarar que no se usó ChatGPT para ninguna decisión de diseño) así que empezó con una primera versión “prototipo” del proyecto.
+
+En esta primera versión, me dio un sistema de partículas muy sencillo en dónde no había sensación de estar viajando por el espacio, pero lo de mostrar los caminos que recorriste dentro de ese universo si me gustó bastante como quedó:
+
+
+<img width="921" height="863" alt="image" src="https://github.com/user-attachments/assets/c3198314-8b84-4647-9b77-26f34408acc3" />
+
+ 
+Parece una especie de constelación, sin embargo, estas figuras no eran muy fieles al recorrido del mouse ya que en esa iteración simplemente movi el mouse un poco hacia la derecha, así que no fue muy preciso que digamos.
+
+Primeramente quise corregir el sistema de partículas ya que este no daba la sensación que quería que diera, lo que quería finalmente era sentir que estaba viajando a través de todas esas partículas y que estaba influyendo en ese universo, así que me puse manos a la obra y después de varias correcciones pude llegar a este prototipo:
+
+[Prototipo Sis Particulas](https://editor.p5js.org/sebastr008/sketches/lS1DqO7mu)
+
+<img width="921" height="832" alt="image" src="https://github.com/user-attachments/assets/e0d91f80-25f3-465b-a565-4cb868a99ce0" />
+
+
+ 
+Como podemos ver, ahora si se siente que estamos atravesando un universo lleno de partículas, sin embargo aún no teníamos como ese feedback de que estuviéramos haciendo algo dentro de este universo, por ende, quise añadir la interacción del mouse, en donde las partículas se repelen con diferente fuerza del mouse.
+
+No me demore mucho implementando esto, así que de una vez quise empezar a implementar lo de la cámara.
+
+Aquí llegamos a otro prototipo en dónde la interacción de tapar la cámara con un dedo, funcionó a la primera sorprendentemente, lo único que se conservó fue la manera en como salía “el recorrido” del mouse (seguía siendo bastante impreciso)
+
+
+<img width="921" height="836" alt="image" src="https://github.com/user-attachments/assets/4ca85623-cb4f-451d-96a5-b2fddb12861b" />
+
+
+** Se aprecian espacios negros, ahí estaba mi mouse solo que la captura de pantalla no muestra el mouse **
+
+
+Ahora, lo único que quería es cambiar la manera de como se iban a representar esos cambios que hicimos dentro de ese universo, me quedé un rato pensando y dije, “¿Que tal si por donde te muevas, ese es el input para crear un planeta único en cada iteración?” Sinceramente casi me quemo el cerebro pensando en eso así que me puse manos a la obra para implementar
+
+La primera versión fue un completo fracaso jaja, lo único que logré hacer fue que el planeta tuviera color y de vez en cuando salía uno que otro “trazo” sin tener éxito alguno.
+
+<img width="921" height="870" alt="image" src="https://github.com/user-attachments/assets/9193dc4f-19b6-43bd-927e-2ad1c6ec6275" />
+
+ 
+El 90% de las veces salía esto sin ningún “recorrido” hecho, y aquí ya me estaba empezando a frustrar, así que opte por aislar esta parte del código, programarla bien y una vez que la función esté bien hecha, ahí vincularlo al proyecto.
+
+ 
+<img width="921" height="696" alt="image" src="https://github.com/user-attachments/assets/be226e26-23b8-4bd0-b283-638e15461d54" />
+
+
+<img width="921" height="888" alt="image" src="https://github.com/user-attachments/assets/37c2da08-b588-4c8f-9f4a-f5a9fb133546" />
+
+
+
+Este fue el resultado que obtuve y FINALMENTE lo pude implementar al proyecto.
+
+Ahora las 3 partes están completas, y creo que el proyecto quedó finalizado.
+
+Tapar y que al destapar estemos en una galaxia – Check
+Sensación de estar dentro de una galaxia y modificando sus partículas – Check
+Resultado de haber modificado las partículas en las galaxias + potencial souvenir – Check
+
+Fue un proceso bastante divertido de hacer, me gustó mucho idear este concepto y me alegró bastante poder haber llegado al resultado que quise.
+
+
+
+
+
+
 
 
 
