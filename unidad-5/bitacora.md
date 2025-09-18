@@ -1711,32 +1711,44 @@ Por qué es Excelente: hay relación directa del concepto a interacción y visua
 ### 3) Aplicación técnica (código)
 
 Evidencias
-## Unidad 1 — Tipos de random
+
+
+**Unidad 1 — Tipos de random**
+
+
 - randomSeed()/noiseSeed() para controlar la aleatoriedad por sesión.
 - Colores aleatorios por iteración para “tierra/agua”.
 Implementado en el proyecto: generación del planeta y el flujo de partículas usa semillas y paletas aleatorias.
 
-## Unidad 2 — Motion 101
+**Unidad 2 — Motion 101**
+
+
 - Integración aceleración -> velocidad -> posición en cada partícula.
 - Se usó fricción para estabilizar el movimiento.
 Implementado en el proyecto: Partículas con fricción para mantener fluidez y control.
 
-## Unidad 3 — Fuerzas y campos
+**Unidad 3 — Fuerzas y campos**
+
+
 - Atracción radial hacia el punto de fuga.
 - Repulsión sensible al gesto (mouse/mano) con radio variable.
 Implementado en el proyecto: combinación de campo radial + repulsión, base del “viaje” por el cosmos.
 
-## Unidad 4 — Angular / sinusoidal / oscilatorio
+**Unidad 4 — Angular / sinusoidal / oscilatorio**
+
+
 - Ondulación sutil por partícula usando un ángulo propio (theta/omega) y sin(theta).
 Implementado en el proyecto: oscilaciones que enriquecen el movimiento sin perder estabilidad.
 
-## Unidad 5 — Sistema de partículas / Herencia / Polimorfismo
+**Unidad 5 — Sistema de partículas / Herencia / Polimorfismo**
+
+
 - Clase base de partícula y subclases con comportamiento/visual distintos.
 - Emisor explícito que controla tasa y cantidad.
 - Gestión de vida y memoria mediante lifespan y reciclaje de partículas.
 Implementado en el proyecto: Particle base + tipos derivados, Emitter con tasa/techo, vida decreciente y reciclaje para evitar acumulación.
 
-### 4) Calidad del artefacto final
+### 4) Calidad del proyecto final
 
 Evidencias
 - Transición de entrada al cosmos con fade-in y música ambiental.  
@@ -1748,6 +1760,7 @@ Evidencias
 2) Intención y diseño: concepto definido y relación directa a interacción y forma. Nota: 5.0  
 3) Aplicación técnica: contenidos de las unidades 1–5 aplicados correctamente. Nota: 5.0  
 4) Calidad del artefacto final: resultado estable, legible y exportable. Nota: 5.0
+
 
 
 
