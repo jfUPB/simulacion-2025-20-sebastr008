@@ -31,6 +31,36 @@ Antes se trabajaban con fuerzas del entorno como la gravedad, el viento o el roz
 
 La relación que vi es que el movimiento colectivo puede verse natural si cada agente aplica tres comportamientos locales. Separación para no chocar. Alineación para apuntar en direcciones parecidas. Cohesión para mantenerse cerca. Cada uno genera una steering force, se les da pesos, las fuerzas se suman, se "recorta" el resultado para no pasar los límites de fuerza y de velocidad y se les aplica esa fuerza como aceleración en cada frame y de ahí aparece un movimiento que se siente bastante natural
 
+## Actividad 3:
+
+**Explica brevemente la estructura de datos usada para el campo de flujo y cómo se generan sus vectores.**
+
+El flowfield se almacena en un array 2D llamado “field” que cubre todo el lienzo en celdas del tamaño que marque la “resolution”. En cada casilla guardo un vector 2D. Ese vector sale de un ángulo generado con ruido suave en las coordenadas de la celda y lo paso a dirección con coseno y seno (o p5.Vector.fromAngle), si quiero que el campo cambie en el tiempo, avanzo un “z” en el ruido y los vectores se actualizan de forma pareja frame a frame.
+
+**Describe con tus palabras cómo un agente utiliza el campo para calcular su fuerza de dirección**
+
+En cada update() el agente pregunta qué vector le toca con flow.lookup(this.position), lo ajusta a su velocidad objetivo con desired.setMag(this.maxspeed) y arma la fuerza de giro como la diferencia entre ese “desired” y su velocidad actual. A esa fuerza le pongo un tope con this.maxforce para evitar volantazos y recién ahí la aplico. Después integro normal: acumulo aceleración, actualizo la velocidad, muevo la posición y limpio la aceleración para el siguiente ciclo.
+
+**Lista los parámetros clave identificados (resolución, maxspeed, maxforce)**
+
+- resolution: define cuántas columnas/filas tiene el “field” y el nivel de detalle del flujo.
+
+- noiseScale / inc: escala del ruido usado para generar el ángulo por celda.
+
+- zOffset / zSpeed: sirve para que el campo “se anime” de forma suave
+
+- maxspeed (agente): velocidad objetivo a la que alineo el vector “desired” que viene del campo.
+
+- maxforce (agente): tope de la fuerza de giro, controla qué tan rápido puede corregir rumbo sin volantazos.
+
+- lookup (modo de lectura): cómo se lee el vector de la malla en una posición
+
+- vehicleCount: cantidad de agentes
+
+
+
+
+
 
 
 
