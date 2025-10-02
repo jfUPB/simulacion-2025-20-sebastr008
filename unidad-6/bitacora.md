@@ -57,6 +57,57 @@ En cada update() el agente pregunta qué vector le toca con flow.lookup(this.pos
 
 - vehicleCount: cantidad de agentes
 
+**Modificación**
+
+La modificación que le hice a la forma en la que se generan los vectores de campo de flujo consiste en restringir la dirección que puede tomar cada vector a 8 direcciones posibles, como la matemática no es mi mayor fuerte, le explique a chatgpt como funcionaba la función "init()" de la clase "flowfield" y le dije que quería que me restringiera el ángulo posible de cada vector a 8 posibles direcciones. En “setup()” también cambié la resolution de 20 a 8 para que el campo tenga muchas más celdas en pantalla y esos cambios se vean más seguido. Por último, en el constructor de “Vehicle” baje considerablemente el random de “maxspeed” y “maxforce” lo aumenté para que el agente se mueva mucho más lento pero tenga fuerza suficiente para cambiar su dirección de una cuando pisa una celda con dirección distinta, haciendo así que las trayectorias dejen de ser tan suaves y aparecen quiebres visibles cuando cruzan de celda, también se forman como carriles y los grupos tienden a alinearse en las mismas direcciones.
+
+<img width="629" height="228" alt="image" src="https://github.com/user-attachments/assets/beab2211-bdec-4332-8abe-04f43dbd61ae" />
+
+
+Codigo que alteré:
+
+```js
+createCanvas(640, 240);
+  // Make a new flow field with "resolution" of 16
+  flowfield = new FlowField(8);
+  // Make a whole bunch of vehicles with random maxspeed and maxforce values
+  for (let i = 0; i < 120; i++) {
+    vehicles.push(
+      new Vehicle(random(width), random(height), random(.5, 2), random(0.5, 0.10))
+    );
+  }
+}
+```
+
+```js
+ init() {
+    // Reseed noise for a new flow field each time
+    noiseSeed(random(10000));
+    let xoff = 0;
+    let inc = 0.35;                 
+    let sector = TWO_PI / 8.0;      
+    for (let i = 0; i < this.cols; i++) {
+      let yoff = 0;
+      for (let j = 0; j < this.rows; j++) {
+        //{.code-wide} In this example, use Perlin noise to create the vectors.
+        let angle = map(noise(xoff, yoff), 0, 1, 0, TWO_PI);
+        angle = floor(angle / sector) * sector + sector * 0.5;
+        this.field[i][j] = p5.Vector.fromAngle(angle);
+        
+        yoff += inc;
+      }
+      xoff += inc;
+    }
+  }
+```
+
+```js
+flowfield = new FlowField(8);
+```
+
+
+
+
 
 
 
